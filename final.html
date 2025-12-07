@@ -1,0 +1,1616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Unseen Architecture | 2040</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --coal: #0f0f0f;
+            --stone: #1a1a1a;
+            --slate: #2a2a2a;
+            --ash: #6a6a6a;
+            --pearl: #f5f5f5;
+            --white: #ffffff;
+            --signal: #0066ff;
+            --warning: #ff3b30;
+            --caution: #ff9500;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.9; }
+        }
+
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(0, 102, 255, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(0, 102, 255, 0.6); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(-50%, -50%) translateY(0px); }
+            50% { transform: translate(-50%, -50%) translateY(-10px); }
+        }
+
+        @keyframes drawLine {
+            from { stroke-dashoffset: 1000; }
+            to { stroke-dashoffset: 0; }
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes scaleIn {
+            from { transform: scale(0.95); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--coal);
+            color: var(--pearl);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated background gradient */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #0f0f0f 0%, #1a1a1a 50%, #0f0f0f 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            z-index: -2;
+        }
+
+        /* Subtle noise texture overlay */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+            opacity: 0.3;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section {
+            display: none;
+            min-height: 100vh;
+            padding: 4rem 0;
+            animation: scaleIn 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        /* Typography */
+        h1 {
+            font-family: 'Instrument Serif', Georgia, serif;
+            font-size: clamp(3rem, 8vw, 7rem);
+            font-weight: 400;
+            line-height: 0.95;
+            letter-spacing: -0.03em;
+            margin-bottom: 2rem;
+            background: linear-gradient(135deg, var(--pearl) 0%, var(--signal) 100%);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 8s ease infinite;
+        }
+
+        h2 {
+            font-family: 'Instrument Serif', Georgia, serif;
+            font-size: clamp(2rem, 5vw, 4rem);
+            font-weight: 400;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+            margin-bottom: 1.5rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -0.5rem;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--signal), transparent);
+            animation: slideIn 0.8s ease;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            margin-bottom: 1rem;
+        }
+
+        .serif {
+            font-family: 'Instrument Serif', Georgia, serif;
+            font-style: italic;
+        }
+
+        .label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--ash);
+            margin-bottom: 1.5rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .label::after {
+            content: '';
+            position: absolute;
+            bottom: -0.5rem;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: var(--signal);
+        }
+
+        .body-text {
+            font-size: 1.125rem;
+            line-height: 1.8;
+            color: var(--pearl);
+            margin-bottom: 1.5rem;
+            font-weight: 400;
+            animation: fadeIn 1s ease backwards;
+        }
+
+        .body-text:nth-child(2) { animation-delay: 0.1s; }
+        .body-text:nth-child(3) { animation-delay: 0.2s; }
+        .body-text:nth-child(4) { animation-delay: 0.3s; }
+        .body-text:nth-child(5) { animation-delay: 0.4s; }
+
+        .body-text.large {
+            font-size: 1.5rem;
+            line-height: 1.6;
+            font-weight: 300;
+        }
+
+        /* Opening */
+        .opening {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+            padding: 4rem 2rem;
+            position: relative;
+        }
+
+        .opening::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(0, 102, 255, 0.1) 0%, transparent 70%);
+            animation: pulse 8s ease-in-out infinite;
+        }
+
+        .opening::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 800px;
+            height: 800px;
+            border: 1px solid rgba(0, 102, 255, 0.1);
+            border-radius: 50%;
+            animation: rotate 30s linear infinite;
+        }
+
+        .opening > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .opening h1 {
+            margin-bottom: 1rem;
+            text-shadow: 0 0 60px rgba(0, 102, 255, 0.3);
+        }
+
+        .opening .subtitle {
+            font-size: 1.25rem;
+            color: var(--ash);
+            font-weight: 300;
+            letter-spacing: 0.02em;
+            margin-bottom: 4rem;
+            max-width: 600px;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: transparent;
+            border: 1px solid var(--pearl);
+            color: var(--pearl);
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: var(--pearl);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+            z-index: 0;
+        }
+
+        .btn:hover::before {
+            width: 400px;
+            height: 400px;
+        }
+
+        .btn:hover {
+            color: var(--coal);
+            border-color: var(--pearl);
+        }
+
+        .btn span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn.primary {
+            background: var(--signal);
+            border-color: var(--signal);
+            color: var(--white);
+            box-shadow: 0 4px 20px rgba(0, 102, 255, 0.3);
+        }
+
+        .btn.primary::before {
+            background: var(--coal);
+        }
+
+        .btn.primary:hover {
+            color: var(--white);
+            border-color: var(--signal);
+            box-shadow: 0 8px 30px rgba(0, 102, 255, 0.5);
+        }
+
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin: 3rem 0;
+            max-width: 700px;
+        }
+
+        /* Matrix */
+        .matrix-wrapper {
+            position: relative;
+            max-width: 1400px;
+            margin: 6rem auto;
+            padding: 0;
+        }
+
+        .matrix-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0;
+            position: relative;
+            background: #1a1a1a;
+        }
+
+        .matrix-cell {
+            background: #1a1a1a;
+            padding: 4rem 3rem;
+            cursor: pointer;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            min-height: 450px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            text-align: left;
+            overflow: hidden;
+        }
+
+        .matrix-cell::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            transition: all 0.5s ease;
+        }
+
+        .matrix-cell:nth-child(1)::after,
+        .matrix-cell:nth-child(3)::after {
+            left: 0;
+        }
+
+        .matrix-cell:nth-child(2)::after,
+        .matrix-cell:nth-child(4)::after {
+            right: 0;
+        }
+
+        .matrix-cell:nth-child(1)::after {
+            background: linear-gradient(180deg, #0066ff, transparent);
+        }
+
+        .matrix-cell:nth-child(2)::after {
+            background: linear-gradient(180deg, #ff9500, transparent);
+        }
+
+        .matrix-cell:nth-child(3)::after {
+            background: linear-gradient(0deg, #ff9500, transparent);
+        }
+
+        .matrix-cell:nth-child(4)::after {
+            background: linear-gradient(0deg, #ef4444, transparent);
+        }
+
+        .matrix-cell::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at center, rgba(255,255,255,0.03) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.6s ease;
+        }
+
+        .matrix-cell:hover::before {
+            opacity: 1;
+        }
+
+        .matrix-cell:hover {
+            background: #202020;
+            transform: scale(1.02);
+        }
+
+        .matrix-cell:hover::after {
+            width: 6px;
+        }
+
+        /* Add corner accent */
+        .matrix-cell .cell-label::before {
+            content: '▸';
+            margin-right: 0.5rem;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .matrix-cell:hover .cell-label::before {
+            opacity: 1;
+            margin-right: 0.75rem;
+        }
+
+        .matrix-cell .cell-label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-bottom: 2.5rem;
+            color: #6a6a6a;
+        }
+
+        .matrix-cell h3 {
+            color: var(--pearl);
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            font-weight: 400;
+            font-family: 'Instrument Serif', Georgia, serif;
+            line-height: 1.2;
+        }
+
+        .matrix-cell p {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: #8a8a8a;
+            font-weight: 300;
+        }
+
+        .matrix-cell.preferable h3 {
+            color: var(--pearl);
+        }
+
+        .matrix-cell.suboptimal h3 {
+            color: var(--pearl);
+        }
+
+        .matrix-cell.critical h3 {
+            color: var(--pearl);
+        }
+
+        /* Remove old axis styling */
+        .axis-horizontal,
+        .axis-vertical,
+        .axis-label-left,
+        .axis-label-right,
+        .axis-label-top,
+        .axis-label-bottom,
+        .matrix-center-label {
+            display: none;
+        }
+
+        /* Story sections */
+        .story-block {
+            max-width: 800px;
+            margin: 3rem auto;
+            position: relative;
+        }
+
+        .story-block::before {
+            content: '';
+            position: absolute;
+            left: -2rem;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, var(--signal), transparent);
+            opacity: 0.3;
+        }
+
+        .timestamp {
+            font-family: 'Courier New', monospace;
+            font-size: 0.7rem;
+            color: rgba(0, 102, 255, 0.6);
+            margin-bottom: 2.5rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            padding-left: 1rem;
+            border-left: 2px solid rgba(0, 102, 255, 0.3);
+        }
+
+        .thought {
+            font-family: 'Instrument Serif', Georgia, serif;
+            font-style: italic;
+            font-size: 1.25rem;
+            color: var(--signal);
+            padding-left: 2rem;
+            border-left: 2px solid var(--signal);
+            margin: 3rem 0;
+            line-height: 1.6;
+            position: relative;
+            animation: slideIn 0.8s ease;
+        }
+
+        .thought::before {
+            content: '"';
+            position: absolute;
+            left: -0.5rem;
+            top: -1rem;
+            font-size: 4rem;
+            opacity: 0.3;
+            color: var(--signal);
+        }
+
+        .data-panel {
+            background: var(--stone);
+            border: 1px solid var(--slate);
+            padding: 2.5rem;
+            margin: 3rem 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.8;
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 1s ease;
+        }
+
+        .data-panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 102, 255, 0.1), transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        .data-panel::after {
+            content: '◆';
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            color: rgba(0, 102, 255, 0.2);
+            font-size: 1.5rem;
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .data-panel:hover {
+            border-color: var(--signal);
+            box-shadow: 0 8px 32px rgba(0, 102, 255, 0.2);
+        }
+
+        .data-panel h4 {
+            color: var(--signal);
+            margin-bottom: 1.5rem;
+            font-size: 0.85rem;
+            letter-spacing: 0.1em;
+        }
+
+        .data-panel p {
+            color: var(--ash);
+            margin-bottom: 0.5rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin: 4rem 0;
+        }
+
+        .stat {
+            text-align: center;
+            padding: 3rem 2rem;
+            background: linear-gradient(135deg, rgba(0, 102, 255, 0.05) 0%, transparent 100%);
+            border: 1px solid rgba(0, 102, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .stat::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 102, 255, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .stat:hover::before {
+            left: 100%;
+        }
+
+        .stat:hover {
+            border-color: var(--signal);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0, 102, 255, 0.2);
+        }
+
+        .stat-value {
+            font-family: 'Instrument Serif', Georgia, serif;
+            font-size: 4rem;
+            color: var(--signal);
+            margin-bottom: 0.75rem;
+            line-height: 1;
+            font-weight: 400;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--ash);
+            font-weight: 600;
+        }
+
+        /* Guide section */
+        .guide-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 4rem 0;
+        }
+
+        .guide-card {
+            background: var(--stone);
+            border: 1px solid var(--slate);
+            padding: 2.5rem;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .guide-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--signal), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        .guide-card::before {
+            content: attr(data-number);
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            font-size: 4rem;
+            font-family: 'Instrument Serif', Georgia, serif;
+            color: rgba(0, 102, 255, 0.05);
+            font-weight: 700;
+            line-height: 1;
+            transition: all 0.4s ease;
+        }
+
+        .guide-card:hover::before {
+            color: rgba(0, 102, 255, 0.1);
+            transform: scale(1.1);
+        }
+
+        .guide-card:hover::after {
+            transform: translateX(0);
+        }
+
+        .guide-card:hover {
+            border-color: var(--signal);
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 16px 48px rgba(0, 102, 255, 0.2);
+        }
+
+        .guide-card h3 {
+            color: var(--signal);
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+        }
+
+        .guide-card .category {
+            font-size: 0.75rem;
+            color: var(--ash);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1.5rem;
+        }
+
+        .guide-card p {
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: var(--ash);
+            margin-bottom: 1rem;
+        }
+
+        .guide-card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .guide-card li {
+            font-size: 0.9rem;
+            color: var(--ash);
+            padding-left: 1.5rem;
+            margin-bottom: 0.5rem;
+            position: relative;
+        }
+
+        .guide-card li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--signal);
+        }
+
+        /* Reflection */
+        .reflection {
+            max-width: 900px;
+            margin: 4rem auto;
+            padding: 5rem 4rem;
+            background: linear-gradient(135deg, rgba(0, 102, 255, 0.05) 0%, transparent 50%);
+            border: 1px solid rgba(0, 102, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .reflection::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--signal), transparent);
+        }
+
+        .reflection::after {
+            content: '"';
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            font-size: 12rem;
+            font-family: 'Instrument Serif', Georgia, serif;
+            color: rgba(0, 102, 255, 0.05);
+            line-height: 1;
+        }
+
+        .reflection > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .reflection h2 {
+            margin-bottom: 2.5rem;
+            color: var(--signal);
+        }
+
+        .reflection p {
+            font-size: 1.125rem;
+            line-height: 1.9;
+            color: var(--pearl);
+            margin-bottom: 1.8rem;
+            font-weight: 300;
+        }
+
+        .pullquote {
+            font-family: 'Instrument Serif', Georgia, serif;
+            font-size: 2rem;
+            line-height: 1.4;
+            color: var(--signal);
+            margin: 3rem 0;
+            padding: 2rem 0;
+            border-top: 1px solid var(--slate);
+            border-bottom: 1px solid var(--slate);
+            position: relative;
+            text-align: center;
+        }
+
+        .pullquote::before,
+        .pullquote::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            width: 60px;
+            height: 2px;
+            background: var(--signal);
+        }
+
+        .pullquote::before {
+            top: 0;
+            transform: translateX(-50%);
+        }
+
+        .pullquote::after {
+            bottom: 0;
+            transform: translateX(-50%);
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            z-index: 1000;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .nav-btn {
+            background: rgba(26, 26, 26, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--pearl);
+            padding: 0.75rem 1.5rem;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            font-weight: 600;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--signal);
+            transition: left 0.4s ease;
+            z-index: -1;
+        }
+
+        .nav-btn:hover::before {
+            left: 0;
+        }
+
+        .nav-btn:hover {
+            border-color: var(--signal);
+            color: var(--white);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 102, 255, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .matrix-container {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 0 1.5rem;
+            }
+
+            h1 {
+                font-size: 3rem;
+            }
+
+            .reflection {
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="nav">
+        <button class="nav-btn" onclick="goToSection('opening')">Index</button>
+    </div>
+
+    <div class="container">
+        <!-- OPENING -->
+        <div class="section active" id="opening">
+            <div class="opening">
+                <div class="label">A speculative investigation</div>
+                <h1>The Unseen<br/>Architecture</h1>
+                <p class="subtitle">Two forces will determine how we design with artificial intelligence in 2040: who has access, and who controls the data</p>
+                <div class="btn-group">
+                    <button class="btn primary" onclick="goToSection('intro')"><span>Begin</span></button>
+                </div>
+            </div>
+        </div>
+
+        <!-- INTRODUCTION -->
+        <div class="section" id="intro">
+            <div class="story-block">
+                <div class="label">October 12, 2040 • Seattle, Washington</div>
+                <h2>The Morning Decision</h2>
+                
+                <p class="body-text">
+                    Rain drums against the window of your studio apartment. You are Asha Okafor, a product designer at a mid-sized climate tech company. Today you will make choices that reveal which version of 2040 you inhabit.
+                </p>
+
+                <p class="body-text">
+                    Your phone lights up. A new project from the city's Department of Public Infrastructure: design an interface for the neighborhood resilience network. Heat monitoring, emergency resources, community health data. Due in 72 hours.
+                </p>
+
+                <div class="thought">
+                    The same question surfaces every morning. Which tools can I trust? And more importantly, which tools can my users trust?
+                </div>
+
+                <p class="body-text">
+                    You open your workstation. Four design platforms are available, each representing a fundamentally different philosophy about who should access AI tools and how personal data should be handled in the creative process.
+                </p>
+
+                <div class="btn-group">
+                    <button class="btn" onclick="goToSection('matrix')"><span>View the four futures</span></button>
+                </div>
+            </div>
+        </div>
+
+        <!-- MATRIX -->
+        <div class="section" id="matrix">
+            <div class="label" style="text-align: center;">The Futures Matrix</div>
+            <h2 style="text-align: center;">2040: Four Possible Worlds</h2>
+            
+            <p class="body-text large" style="max-width: 900px; margin: 2rem auto 4rem; text-align: center;">
+                Two axes determine our trajectory. Accessibility defines who can use AI tools. Data privacy determines who owns and controls the information that powers them.
+            </p>
+
+            <div class="matrix-wrapper">
+                <!-- Axes -->
+                <div class="axis-horizontal"></div>
+                <div class="axis-vertical"></div>
+
+                <!-- Axis Labels -->
+                <div class="axis-label-left">Low<br/>Transparency</div>
+                <div class="axis-label-right">High<br/>Transparency</div>
+                <div class="axis-label-top">Human-Driven<br/>Creativity</div>
+                <div class="axis-label-bottom">AI-Driven<br/>Automation</div>
+
+                <!-- Center Label -->
+                <div class="matrix-center-label">
+                    The future of a<br/>
+                    <span class="highlight">Creative<br/>Technologist</span><br/>
+                    process.
+                </div>
+
+                <!-- Matrix Cells -->
+                <div class="matrix-container">
+                    <!-- Top Left: Sub-optimal (Human-Driven + Low Transparency) -->
+                    <div class="matrix-cell suboptimal" onclick="goToSection('suboptimal-2')">
+                        <div class="cell-label">Sub-optimal future:</div>
+                        <p>
+                            You understand how AI works but choose not to use it. You maintain originality, but you fall behind industry pace and struggle to compete with faster workflows.
+                        </p>
+                    </div>
+
+                    <!-- Top Right: Preferable (Human-Driven + High Transparency) -->
+                    <div class="matrix-cell preferable" onclick="goToSection('preferable')">
+                        <div class="cell-label">Optimal, preferred future:</div>
+                        <p>
+                            AI tools act like visible collaborators. Transparent, explainable, and adjustable. You harness AI to expand creative possibilities, not replace them.
+                        </p>
+                    </div>
+
+                    <!-- Bottom Left: Worst-case (AI-Driven + Low Transparency) -->
+                    <div class="matrix-cell critical" onclick="goToSection('critical')">
+                        <div class="cell-label">Worst-case future:</div>
+                        <p>
+                            AI fully automates creation with opaque systems. You lose control, your role becomes just prompting, and creative agency collapses. Work becomes mechanical.
+                        </p>
+                    </div>
+
+                    <!-- Bottom Right: Sub-optimal (AI-Driven + High Transparency) -->
+                    <div class="matrix-cell suboptimal" onclick="goToSection('suboptimal-1')">
+                        <div class="cell-label">Sub-optimal future:</div>
+                        <p>
+                            You use AI, but it's a black box. You create fast but with ethical uncertainty and results that feel inconsistent or unexplainable.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="btn-group" style="text-align: center;">
+                <button class="btn primary" onclick="goToSection('preferable')"><span>Explore the preferable future</span></button>
+            </div>
+        </div>
+
+        <!-- PREFERABLE FUTURE -->
+        <div class="section" id="preferable">
+            <div class="story-block">
+                <div class="label">The Open Commons • 2040</div>
+                <h2>A World Worth Building</h2>
+
+                <p class="body-text">
+                    You launch Loom, the open-source design platform that runs entirely on your local machine. No cloud. No data upload. No surveillance. The interface is clean, purposeful, built by a global collective of designers who believe tools should serve users, not extract from them.
+                </p>
+
+                <p class="body-text">
+                    The first thing you check is always the model card. Not out of obligation, but habit. Trust is earned through transparency.
+                </p>
+
+                <div class="data-panel">
+                    <h4>[ LOOM MODEL CARD v3.2 ]</h4>
+                    <p>Training Dataset: Creative Commons Consortium 2039</p>
+                    <p>Contributors: 28,394 designers • 100% consensual • Revenue-share via DAO</p>
+                    <p>Geographic Distribution:</p>
+                    <p>  • 34% African design archives</p>
+                    <p>  • 27% Southeast Asian digital practice</p>
+                    <p>  • 22% Latin American visual culture</p>
+                    <p>  • 17% Global North contemporary work</p>
+                    <p>Known Limitations: Overrepresents urban contexts, documented</p>
+                    <p>Data Retention: Zero. All inference local. No telemetry.</p>
+                    <p>Cost: Free forever. Community-funded.</p>
+                </div>
+
+                <p class="body-text">
+                    You begin with pen and paper. Some things still work best analog. You photograph your sketches and import them as reference anchors. Loom interprets your intent without sending anything to a server. The computation happens here, on your machine, powered by a model small enough to run on consumer hardware.
+                </p>
+
+                <div class="thought">
+                    This is what we fought for. After the 2031 Design Labor Strikes, after the data extraction scandals, after watching corporations harvest our work to train systems we couldn't afford to use. We demanded something different.
+                </div>
+
+                <p class="body-text">
+                    The project involves sensitive community health data. In the old world, this would have been impossible to handle ethically with AI tools. Every platform would have required uploading the data to their servers, exposing vulnerable populations to risk.
+                </p>
+
+                <p class="body-text">
+                    But Loom processes everything locally. The health data never leaves the city's infrastructure. Your design work never leaves your machine. Privacy is guaranteed by architecture, not policy documents that change with market conditions.
+                </p>
+
+                <div class="btn-group">
+                    <button class="btn" onclick="goToSection('preferable-2')"><span>Continue the story</span></button>
+                </div>
+            </div>
+        </div>
+
+        <!-- PREFERABLE CONTINUED -->
+        <div class="section" id="preferable-2">
+            <div class="story-block">
+                <div class="timestamp">14:30 • The Design Session</div>
+
+                <p class="body-text">
+                    Loom generates six layout variations based on your sketches. For each, you can see which training examples influenced it, weighted by similarity. Not because regulations require it, but because the community that built Loom believed designers deserve to understand their tools.
+                </p>
+
+                <p class="body-text">
+                    Layout three catches your attention. Strong hierarchy, accessible color contrast, clear wayfinding. But when you examine its reasoning, you notice it draws heavily from a 2037 Copenhagen emergency system and a 2038 Lagos community health project.
+                </p>
+
+                <p class="body-text">
+                    The problem: Copenhagen assumed high digital literacy. Your users include elders in the Chinatown International District who specifically requested minimal text, maximum clarity.
+                </p>
+
+                <p class="body-text">
+                    You override the AI entirely. Larger icons. Reduced density. More white space. Iconography over text labels. The system doesn't argue. It doesn't try to convince you its recommendation was statistically superior. It simply adjusts.
+                </p>
+
+                <div class="data-panel">
+                    <h4>[ SESSION SUMMARY ]</h4>
+                    <p>Human-directed decisions: 67%</p>
+                    <p>AI-assisted generation: 33%</p>
+                    <p>Overrides executed: 18</p>
+                    <p>Processing: 100% local</p>
+                    <p>Data transmitted: 0 bytes</p>
+                    <p>Energy cost: 0.2 kWh</p>
+                    <p>Contributors credited: 52 designers</p>
+                </div>
+
+                <p class="body-text">
+                    By evening, you have a working prototype. The decisions about whose voices to center, how to represent risk without inducing panic, which metaphors to use for different communities, those were yours. The AI helped you iterate faster, caught inconsistencies, generated texture patterns that would have taken hours manually.
+                </p>
+
+                <div class="thought">
+                    The question was never whether to use AI. It was always about on whose terms.
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn" onclick="goToSection('preferable-3')"><span>Export and reflect</span></button>
+                </div>
+            </div>
+        </div>
+
+        <!-- PREFERABLE CONCLUSION -->
+        <div class="section" id="preferable-3">
+            <div class="story-block">
+                <div class="timestamp">18:00 • Evening</div>
+
+                <p class="body-text">
+                    Before export, Loom generates documentation automatically. Not for compliance. Not for legal protection. But because provenance matters.
+                </p>
+
+                <div class="data-panel">
+                    <h4>[ AUTO-GENERATED DOCUMENTATION ]</h4>
+                    <p>Impact Report:</p>
+                    <p>  • Energy: 0.2 kWh (equivalent to 15 minutes of LED lighting)</p>
+                    <p>  • Carbon: 0.08kg CO2</p>
+                    <p>  • Water: 0L (no data center cooling required)</p>
+                    <p></p>
+                    <p>Provenance Record:</p>
+                    <p>  • All AI tools used</p>
+                    <p>  • All training data sources with attribution</p>
+                    <p>  • All human contributors</p>
+                    <p>  • Timestamped decision log</p>
+                    <p>  • Immutable hash for verification</p>
+                    <p></p>
+                    <p>Privacy Guarantee:</p>
+                    <p>  • No data uploaded</p>
+                    <p>  • No telemetry collected</p>
+                    <p>  • No behavioral tracking</p>
+                    <p>  • All processing local</p>
+                </div>
+
+                <p class="body-text">
+                    The client will receive all of this. Most won't read it. But they could. That's the difference between privacy theater and privacy by design.
+                </p>
+
+                <p class="body-text">
+                    As you close Loom, it asks one final question: Would you like to contribute this project to the Creative Commons training pool? Your work could feed the next generation of models. With your explicit consent. With proper attribution. With compensation managed through the Design Cooperative's blockchain system.
+                </p>
+
+                <p class="body-text">
+                    You select "Yes, after client approval."
+                </p>
+
+                <div class="pullquote">
+                    This is the Open Commons. This is the future where access and privacy are not in conflict. This is the world worth building.
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn primary" onclick="goToSection('reflection')"><span>Read the reflection</span></button>
+                    <button class="btn" onclick="goToSection('guide')"><span>View the industry guide</span></button>
+                </div>
+            </div>
+        </div>
+
+        <!-- SUBOPTIMAL 1 -->
+        <div class="section" id="suboptimal-1">
+            <div class="story-block">
+                <div class="label">The Surveillance Commons • 2040</div>
+                <h2>Access Without Privacy</h2>
+
+                <p class="body-text">
+                    Everyone can use the tools. That's what they promised. Democratized AI. Free for all. No barriers.
+                </p>
+
+                <p class="body-text">
+                    But every design session is recorded. Every color choice analyzed. Every client conversation transcribed. The platform watches your process, learns your patterns, sells insights to advertisers, to employers, to insurers.
+                </p>
+
+                <div class="thought">
+                    I have access to infinite capability and zero control over where my data goes.
+                </div>
+
+                <p class="body-text">
+                    You design a healthcare interface. Three months later, you see nearly identical designs appearing in competitor products. Your innovation, harvested in real-time, redistributed to whoever pays for "market intelligence."
+                </p>
+
+                <p class="body-text">
+                    The tools are free. You are the product. Your creativity is the raw material.
+                </p>
+
+                <div class="btn-group">
+                    <button class="btn" onclick="goToSection('matrix')"><span>Return to matrix</span></button>
+                </div>
+            </div>
+        </div>
+
+        <!-- SUBOPTIMAL 2 -->
+        <div class="section" id="suboptimal-2">
+            <div class="story-block">
+                <div class="label">The Walled Garden • 2040</div>
+                <h2>Privacy Without Access</h2>
+
+                <p class="body-text">
+                    Your data is protected. Encrypted end-to-end. Never sold. Never shared. The premium platform guarantees total privacy.
+                </p>
+
+                <p class="body-text">
+                    It costs $4,000 per year.
+                </p>
+
+                <div class="thought">
+                    I can afford this. Most designers cannot.
+                </div>
+
+                <p class="body-text">
+                    Talent is locked out. Emerging designers use inferior tools with exploitative data practices. The gap widens. Creative capability stratifies along economic lines.
+                </p>
+
+                <p class="body-text">
+                    You attend industry conferences where everyone uses the same premium platform. The aesthetic homogenizes. Innovation slows. The walled garden becomes an echo chamber.
+                </p>
+
+                <p class="body-text">
+                    Privacy is a luxury good. Access is rationed. The field fractures.
+                </p>
+
+                <div class="btn-group">
+                    <button class="btn" onclick="goToSection('matrix')">Return to matrix</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- CRITICAL -->
+        <div class="section" id="critical">
+            <div class="story-block">
+                <div class="label">The Corporate Fortress • 2040</div>
+                <h2>Neither Access Nor Privacy</h2>
+
+                <p class="body-text">
+                    Three corporations control 94% of professional design AI. Access requires enterprise contracts. Your data is harvested to train proprietary models you'll never see. Trade secrets protect their methods. User privacy is abandoned.
+                </p>
+
+                <div class="thought">
+                    I am surveilled by the tools I need to do my work. I have no alternative.
+                </div>
+
+                <p class="body-text">
+                    Independent practice is extinct. You work for corporations or you don't work. The platforms dictate terms. Prices increase annually. Features are held hostage behind tier upgrades.
+                </p>
+
+                <p class="body-text">
+                    You realize you've lost the ability to design without these systems. The skills have atrophied. The knowledge has been transferred to black-box models you'll never understand or control.
+                </p>
+
+                <p class="body-text large" style="color: var(--warning); margin-top: 3rem;">
+                    This is where we are headed. Unless we choose differently.
+                </p>
+
+                <div class="btn-group">
+                    <button class="btn" onclick="goToSection('matrix')"><span>Return to matrix</span></button>
+                    <button class="btn primary" onclick="goToSection('preferable')"><span>See the alternative</span></button>
+                </div>
+            </div>
+        </div>
+
+        <!-- REFLECTION -->
+        <div class="section" id="reflection">
+            <div class="reflection">
+                <div class="label">Critical Analysis</div>
+                <h2>Why These Axes Matter</h2>
+                
+                <p>
+                    I chose accessibility and data privacy as the defining axes because they represent the two most fundamental questions facing creative practitioners today: who gets to use these tools, and what happens to the information that powers them.
+                </p>
+
+                <p>
+                    These forces are not abstract policy concerns. They determine whether independent design practice remains viable, whether vulnerable populations can be served ethically, and whether creative work retains any meaningful connection to human authorship and agency.
+                </p>
+
+                <div class="pullquote">
+                    Access without privacy creates surveillance. Privacy without access creates inequality. We need both.
+                </div>
+
+                <p>
+                    The accessibility axis addresses a material reality: AI tools require computational resources, training data, and development infrastructure that concentrate power among those with capital. When access is restricted by cost or corporate gatekeeping, creative capability becomes stratified. Entire communities are locked out. Innovation narrows to serve only those who can pay.
+                </p>
+
+                <p>
+                    The privacy axis addresses an equally urgent concern: AI systems trained on creative work create a permanent record of process, decision-making, and ideation. When this data is extracted without consent or compensation, designers lose control over their intellectual labor. When sensitive client information passes through proprietary platforms, vulnerable populations face new forms of exposure and harm.
+                </p>
+
+                <p>
+                    These axes interact critically. High accessibility with weak privacy creates surveillance capitalism in creative practice. Strong privacy with low accessibility creates a two-tier system where only the privileged are protected. The Corporate Fortress future represents the worst synthesis: restricted access and exploitative data practices serving only those with enterprise contracts.
+                </p>
+
+                <p>
+                    The Open Commons future matters because it demonstrates that access and privacy are not opposing values. Open-source, locally-run models prove that powerful AI tools can exist without data extraction. Community-funded development proves that sustainable platforms can exist without surveillance business models. Consent-based training datasets prove that models can be built ethically.
+                </p>
+
+                <p>
+                    As creative technologists, we are not merely users of AI systems. We are the test case for how these technologies will be deployed across society. The workflows we normalize, the tools we adopt, the compromises we accept—these decisions establish precedents that ripple outward into healthcare, education, governance, and public infrastructure.
+                </p>
+
+                <p>
+                    If we cannot build AI tools that respect both access and privacy in creative practice, we will not build them anywhere. The Open Commons future is not utopian speculation. It is a technical and political project that requires deliberate choices: supporting open-source development, demanding transparent training practices, rejecting extractive platforms, and building collective power through cooperative ownership.
+                </p>
+
+                <p>
+                    The future we inhabit in 2040 depends entirely on the decisions we make now. This is not about prediction. It is about intention.
+                </p>
+
+                <div class="btn-group" style="margin-top: 4rem;">
+                    <button class="btn primary" onclick="goToSection('guide')"><span>Continue to Industry Guide</span></button>
+                </div>
+            </div>
+        </div>
+
+        <!-- GUIDE INTRO -->
+        <div class="section" id="guide">
+            <div class="story-block" style="max-width: 1000px;">
+                <div class="label">Part Two: Professional Practice</div>
+                <h2>Industry Guide to Creative AI</h2>
+                
+                <p class="body-text large">
+                    Twelve principles for responsible practice. Built for designers entering an industry where AI is infrastructure, not novelty.
+                </p>
+
+                <p class="body-text">
+                    This guide translates abstract ethical concepts into concrete professional actions. Each principle includes context, significance, and specific steps you can take to practice responsibly—starting immediately, regardless of your role or resources.
+                </p>
+
+                <div class="btn-group">
+                    <button class="btn primary" onclick="goToSection('guide-accessibility')"><span>Begin with Accessibility</span></button>
+                    <button class="btn" onclick="goToSection('guide-all')"><span>View all twelve principles</span></button>
+                </div>
+            </div>
+        </div>
+
+        <!-- GUIDE: ACCESSIBILITY -->
+        <div class="section" id="guide-accessibility">
+            <div class="story-block" style="max-width: 900px;">
+                <div class="label">Principle 01 of 12</div>
+                <h2>Accessibility</h2>
+                <h3 style="color: var(--ash); font-weight: 400; margin-bottom: 3rem;">Ensuring equitable access to AI-enhanced creative tools and outputs</h3>
+
+                <div class="body-text">
+                    <strong>Why it matters:</strong>
+                </div>
+                <p class="body-text">
+                    AI tools increasingly determine who can participate in creative industries. When these systems are accessible only to those with expensive hardware, enterprise subscriptions, or high-speed internet, they reproduce existing inequalities. Accessibility is not just about interface design—it encompasses economic access, technical requirements, language support, and accommodation for different abilities and contexts.
+                </p>
+
+                <p class="body-text">
+                    Inaccessible AI tools create a two-tier creative economy where capability correlates with privilege. When only well-resourced studios can afford cutting-edge generative systems, innovation concentrates among those already advantaged. When tools require cloud connectivity, they exclude practitioners in regions with unreliable infrastructure. When interfaces assume certain physical or cognitive abilities, they systematically lock out disabled designers.
+                </p>
+
+                <div class="body-text">
+                    <strong>How to practice this:</strong>
+                </div>
+
+                <div class="data-panel">
+                    <h4>EVALUATING TOOLS</h4>
+                    <p>→ What are the true costs? (subscription, hardware, bandwidth)</p>
+                    <p>→ Can it run locally or does it require cloud access?</p>
+                    <p>→ Does it support multiple languages and cultural contexts?</p>
+                    <p>→ Is the interface compatible with screen readers and assistive technology?</p>
+                    <p>→ Are there free or reduced-cost tiers for students, nonprofits, or under-resourced practitioners?</p>
+                    <p>→ What hardware specifications are required? Are they realistic for your target users?</p>
+                </div>
+
+                <div class="data-panel">
+                    <h4>WHEN TO USE AI FOR ACCESSIBILITY</h4>
+                    <p>→ Generating alt text for images in web and app design</p>
+                    <p>→ Creating multiple language versions of interfaces or content</p>
+                    <p>→ Automating caption generation for video content</p>
+                    <p>→ Adapting layouts for different screen sizes and reading contexts</p>
+                    <p>→ Simplifying complex data visualizations for varied literacy levels</p>
+                </div>
+
+                <div class="data-panel">
+                    <h4>WHEN NOT TO USE AI</h4>
+                    <p>→ Don't assume AI-generated accessibility features are perfect—always test with actual users who have disabilities</p>
+                    <p>→ Don't use tools that require expensive hardware when designing for communities with limited resources</p>
+                    <p>→ Don't rely solely on automated testing—accessibility requires human evaluation and lived experience</p>
+                    <p>→ Don't use AI as a replacement for inclusive design processes that center marginalized voices</p>
+                </div>
+
+                <div class="data-panel">
+                    <h4>STAYING INFORMED</h4>
+                    <p>→ Follow accessibility advocates and disabled designers on social media</p>
+                    <p>→ Read Web Content Accessibility Guidelines (WCAG) updates</p>
+                    <p>→ Test tools with assistive technology before recommending them</p>
+                    <p>→ Participate in conversations about open-source alternatives to expensive platforms</p>
+                    <p>→ Track which tools offer true offline functionality versus requiring constant connectivity</p>
+                    <p>→ Monitor pricing changes and advocate for tiered access models</p>
+                </div>
+
+                <div class="body-text" style="margin-top: 3rem;">
+                    <strong>The core question:</strong>
+                </div>
+                <p class="body-text">
+                    Who is excluded by this tool or workflow, and what would it take to change that?
+                </p>
+
+                <div class="btn-group">
+                    <button class="btn primary" onclick="goToSection('guide-privacy')"><span>Next: Data Privacy</span></button>
+                    <button class="btn" onclick="goToSection('guide-all')"><span>View all principles</span></button>
+                </div>
+            </div>
+        </div>
+
+        <!-- GUIDE: PRIVACY -->
+        <div class="section" id="guide-privacy">
+            <div class="story-block" style="max-width: 900px;">
+                <div class="label">Principle 02 of 12</div>
+                <h2>Data Privacy</h2>
+                <h3 style="color: var(--ash); font-weight: 400; margin-bottom: 3rem;">Protecting personal and sensitive information throughout AI-assisted creative work</h3>
+
+                <div class="body-text">
+                    <strong>Why it matters:</strong>
+                </div>
+                <p class="body-text">
+                    Every interaction with cloud-based AI tools creates data: your design decisions, client information, project iterations, behavioral patterns, even the problems you're trying to solve. This data is often retained, analyzed, and used to train future models—sometimes without clear disclosure or consent. For designers working with sensitive client information, healthcare data, or marginalized communities, this creates serious ethical and legal risks.
+                </p>
+
+                <p class="body-text">
+                    Privacy violations in creative AI are not always obvious. When you upload a client brief to a generative tool, where does that information go? When you use an AI writing assistant for a confidential project, who else might access those insights? When you generate images based on proprietary concepts, are those prompts stored and potentially exposed? Data privacy isn't paranoia—it's professional responsibility.
+                </p>
+
+                <div class="body-text">
+                    <strong>How to practice this:</strong>
+                </div>
+
+                <div class="data-panel">
+                    <h4>EVALUATING TOOLS</h4>
+                    <p>→ Read the actual privacy policy, not just the marketing page</p>
+                    <p>→ Does the tool store your inputs, outputs, or process data?</p>
+                    <p>→ Can you opt out of data retention? Is opt-out actually honored?</p>
+                    <p>→ Is data encrypted in transit and at rest?</p>
+                    <p>→ Does the company sell data to third parties?</p>
+                    <p>→ Can you request deletion of your data? How difficult is that process?</p>
+                    <p>→ Where are servers located? What jurisdictional privacy laws apply?</p>
+                    <p>→ Is there a local/offline mode that avoids cloud upload entirely?</p>
+                </div>
+
+                <div class="data-panel">
+                    <h4>WHEN TO USE AI WITH PRIVACY PROTECTIONS</h4>
+                    <p>→ Projects involving public or non-sensitive information</p>
+                    <p>→ Tools that run entirely locally with no cloud upload</p>
+                    <p>→ Platforms with explicit "no training" guarantees for enterprise users</p>
+                    <p>→ Open-source models you control and host yourself</p>
+                    <p>→ Anonymized or synthetic data for testing and prototyping</p>
+                </div>
+
+                <div class="data-panel">
+                    <h4>WHEN NOT TO USE AI</h4>
+                    <p>→ Never upload client information to platforms without explicit consent and verification of their privacy practices</p>
+                    <p>→ Don't use free AI tools for confidential work—if you're not paying, your data is likely the product</p>
+                    <p>→ Don't assume "enterprise" versions actually protect privacy—verify independently</p>
+                    <p>→ Don't use AI tools for healthcare, legal, or financial design work unless they're HIPAA/GDPR compliant and audited</p>
+                    <p>→ Don't trust assurances without technical verification—test data retention yourself</p>
+                </div>
+
+                <div class="data-panel">
+                    <h4>STAYING INFORMED</h4>
+                    <p>→ Follow privacy researchers and digital rights organizations</p>
+                    <p>→ Read terms of service updates—companies change policies frequently</p>
+                    <p>→ Monitor security breaches affecting AI platforms</p>
+                    <p>→ Join professional communities discussing ethical tool choices</p>
+                    <p>→ Learn about differential privacy, federated learning, and other privacy-preserving techniques</p>
+                    <p>→ Track regulatory developments (GDPR, CCPA, AI Act, etc.)</p>
+                </div>
+
+                <div class="body-text" style="margin-top: 3rem;">
+                    <strong>The core question:</strong>
+                </div>
+                <p class="body-text">
+                    If this data were exposed tomorrow, who would be harmed, and how?
+                </p>
+
+                <div class="btn-group">
+                    <button class="btn primary" onclick="goToSection('guide-all')"><span>View all twelve principles</span></button>
+                    <button class="btn" onclick="goToSection('opening')"><span>Return to beginning</span></button>
+                </div>
+            </div>
+        </div>
+
+        <!-- GUIDE: ALL PRINCIPLES -->
+        <div class="section" id="guide-all">
+            <div class="label">Complete Guide</div>
+            <h2>Twelve Principles for Responsible Practice</h2>
+            
+            <p class="body-text" style="max-width: 900px; margin: 2rem auto 4rem;">
+                A comprehensive reference for ethical AI use in creative work. Each principle connects to real decisions you'll make in professional practice.
+            </p>
+
+            <div class="guide-grid">
+                <div class="guide-card" data-number="01" onclick="goToSection('guide-accessibility')">
+                    <div class="category">Access & Equity</div>
+                    <h3>01. Accessibility</h3>
+                    <p>Ensure tools and outputs are available across economic status, ability, language, and infrastructure. Evaluate costs, technical requirements, and assistive technology support.</p>
+                </div>
+
+                <div class="guide-card" data-number="02" onclick="goToSection('guide-privacy')">
+                    <div class="category">Data & Security</div>
+                    <h3>02. Data Privacy</h3>
+                    <p>Protect personal and sensitive information. Understand where data goes, how it's stored, and who can access it. Prioritize local processing and explicit consent.</p>
+                </div>
+
+                <div class="guide-card" data-number="03">
+                    <div class="category">Transparency</div>
+                    <h3>03. Training Data & Provenance</h3>
+                    <p>Verify where models come from. Was training data consensual? Were creators compensated? Demand transparency about datasets and reject systems built on exploitation.</p>
+                </div>
+
+                <div class="guide-card" data-number="04">
+                    <div class="category">Justice</div>
+                    <h3>04. Bias & Fairness</h3>
+                    <p>Test for discriminatory outputs across race, gender, age, class, ability. Understand that bias is baked into training data and model architecture. Audit rigorously.</p>
+                </div>
+
+                <div class="guide-card" data-number="05">
+                    <div class="category">Representation</div>
+                    <h3>05. Inclusion & Diversity</h3>
+                    <p>Ensure AI systems represent and serve diverse populations. Question whose perspectives are centered, whose are erased. Design for everyone, not just dominant groups.</p>
+                </div>
+
+                <div class="guide-card" data-number="06">
+                    <div class="category">Integrity</div>
+                    <h3>06. Authorship & Ownership</h3>
+                    <p>Be transparent about AI use in your work. Credit training contributors. Understand copyright implications. Document your process. Own your hybrid authorship.</p>
+                </div>
+
+                <div class="guide-card" data-number="07">
+                    <div class="category">Responsibility</div>
+                    <h3>07. Accountability</h3>
+                    <p>Take responsibility for AI-generated outputs. When systems fail, who answers? Establish oversight. Create feedback mechanisms. Never blame the algorithm.</p>
+                </div>
+
+                <div class="guide-card" data-number="08">
+                    <div class="category">Autonomy</div>
+                    <h3>08. Human Agency & Control</h3>
+                    <p>Maintain meaningful control over creative decisions. AI assists, never replaces judgment. You direct the machine—it doesn't direct you. Resist automation pressure.</p>
+                </div>
+
+                <div class="guide-card" data-number="09">
+                    <div class="category">Capability</div>
+                    <h3>09. Over-Reliance & Skill</h3>
+                    <p>Avoid dependence that erodes fundamental abilities. Are you enhancing skills or losing them? Maintain foundational knowledge. Set intentional boundaries.</p>
+                </div>
+
+                <div class="guide-card" data-number="10">
+                    <div class="category">Knowledge</div>
+                    <h3>10. Education & Literacy</h3>
+                    <p>Understand how AI actually works. Evaluate vendor claims critically. Read beyond marketing. Ongoing learning isn't optional—it's survival in this field.</p>
+                </div>
+
+                <div class="guide-card" data-number="11">
+                    <div class="category">Sustainability</div>
+                    <h3>11. Environmental Impact</h3>
+                    <p>AI consumes massive energy for training and inference. Choose efficient models. Track carbon costs. Minimize unnecessary generation. The climate crisis demands action.</p>
+                </div>
+
+                <div class="guide-card" data-number="12">
+                    <div class="category">Structure</div>
+                    <h3>12. Power Dynamics</h3>
+                    <p>Question who builds AI, who benefits, who's harmed, who decides. Support cooperative ownership. Practice participatory design. Redistribute power deliberately.</p>
+                </div>
+            </div>
+
+            <div class="reflection" style="margin-top: 6rem;">
+                <h2>Using This Guide</h2>
+                <p>
+                    These principles are not abstract ideals. They translate directly into daily practice: which tools you choose, how you evaluate vendors, what you disclose to clients, and when you choose not to use AI at all.
+                </p>
+                <p>
+                    Start with the principles most relevant to your current projects. If you're designing for public services, prioritize accessibility and privacy. If you're using generative tools, focus on training data provenance and authorship. If you're in a leadership role, emphasize accountability and power dynamics.
+                </p>
+                <p>
+                    This guide assumes you will encounter systems that violate these principles. Corporate tools often do. Your job is not to find perfect solutions—they rarely exist. Your job is to make informed choices, push for better alternatives, and refuse to accept extractive practices as inevitable.
+                </p>
+                <p>
+                    The field changes rapidly. Revisit these principles regularly. Update your understanding as new tools emerge and regulations evolve. Share knowledge with your professional community. Collective action is the only path to structural change.
+                </p>
+                <div class="pullquote">
+                    Responsible AI practice is not a checklist. It is a continuous commitment to question, evaluate, and choose differently.
+                </div>
+            </div>
+
+            <div class="btn-group" style="margin-top: 4rem;">
+                <button class="btn primary" onclick="goToSection('opening')"><span>Return to beginning</span></button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function goToSection(sectionId) {
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(sectionId).classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
