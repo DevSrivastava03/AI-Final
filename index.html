@@ -112,7 +112,7 @@
         }
 
         .container {
-        max-width: 1400px; /* match matrix */
+            max-width: 1400px;
             margin: 0 auto;
             padding: 0 2rem;
         }
@@ -207,11 +207,6 @@
             font-weight: 400;
             animation: fadeIn 1s ease backwards;
         }
-
-        .body-text:nth-child(2) { animation-delay: 0.1s; }
-        .body-text:nth-child(3) { animation-delay: 0.2s; }
-        .body-text:nth-child(4) { animation-delay: 0.3s; }
-        .body-text:nth-child(5) { animation-delay: 0.4s; }
 
         .body-text.large {
             font-size: 1.5rem;
@@ -345,31 +340,30 @@
             gap: 1rem;
             margin: 3rem 0;
             max-width: 700px;
-            align-items: center
+            align-items: center;
         }
 
         /* Matrix */
-         #matrix .btn-group {
-        display: flex;
+        #matrix .btn-group {
+            display: flex;
             flex-direction: column;
             gap: 1rem;
-            margin: 3rem 300px;
+            margin: 3rem auto;
             max-width: 700px;
-            align-items: center
+            align-items: center;
         }
 
         #matrix .btn-group .btn {
-        min-width: 320px;
+            min-width: 320px;
         }
         
         .matrix-wrapper {
-        max-width: 1400px;
-        margin: 3rem auto;
-        display: flex;
-        flex-direction: column;
-        align-items: center;   
+            max-width: 1400px;
+            margin: 3rem auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
-
 
         .matrix-container {
             display: grid;
@@ -377,7 +371,6 @@
             gap: 0;
             position: relative;
             background: #1a1a1a;
-            
         }
 
         .matrix-cell {
@@ -454,7 +447,6 @@
             width: 6px;
         }
 
-        /* Add corner accent */
         .matrix-cell .cell-label::before {
             content: '▸';
             margin-right: 0.5rem;
@@ -492,19 +484,6 @@
             font-weight: 300;
         }
 
-        .matrix-cell.preferable h3 {
-            color: var(--pearl);
-        }
-
-        .matrix-cell.suboptimal h3 {
-            color: var(--pearl);
-        }
-
-        .matrix-cell.critical h3 {
-            color: var(--pearl);
-        }
-
-        /* Remove old axis styling */
         .axis-horizontal,
         .axis-vertical,
         .axis-label-left,
@@ -514,9 +493,170 @@
         .matrix-center-label {
             display: none;
         }
-       
 
+        /* POV Toggle — Global */
+        .pov-toggle {
+            position: fixed;
+            top: 1.5rem;
+            right: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+            background: linear-gradient(135deg, rgba(26, 26, 26, 0.85) 0%, rgba(18, 18, 18, 0.9) 100%);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            padding: 0.85rem 1.5rem;
+            border-radius: 50px;
+            z-index: 200;
+            opacity: 0;
+            animation: povFloatIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        }
 
+        .pov-toggle:hover {
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 
+                0 12px 40px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.08);
+        }
+
+        @keyframes povFloatIn {
+            from { 
+                opacity: 0; 
+                transform: translateY(-12px) scale(0.94); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0) scale(1); 
+            }
+        }
+
+        .pov-toggle-label {
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--ash);
+            transition: color 0.3s ease;
+        }
+
+        .pov-toggle:hover .pov-toggle-label {
+            color: var(--pearl);
+        }
+
+        .pov-switch {
+            width: 64px;
+            height: 32px;
+            background: rgba(255,255,255,0.06);
+            border-radius: 50px;
+            border: 1.5px solid rgba(255,255,255,0.15);
+            position: relative;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .pov-switch::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 50px;
+            background: linear-gradient(180deg, rgba(255,255,255,0.05) 0%, transparent 100%);
+            pointer-events: none;
+        }
+
+        .pov-switch:hover {
+            background: rgba(255,255,255,0.08);
+            border-color: rgba(255,255,255,0.25);
+        }
+
+        .pov-knob {
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%);
+            transition: 
+                transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                background 0.3s ease,
+                box-shadow 0.3s ease;
+            box-shadow: 
+                0 4px 12px rgba(0, 0, 0, 0.4),
+                0 1px 3px rgba(0, 0, 0, 0.2),
+                inset 0 -1px 2px rgba(0, 0, 0, 0.15),
+                inset 0 1px 1px rgba(255, 255, 255, 0.5);
+        }
+
+        .pov-knob::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            right: 2px;
+            height: 50%;
+            border-radius: 50%;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.6) 0%, transparent 100%);
+            pointer-events: none;
+        }
+
+        .pov-switch.active {
+            background: linear-gradient(135deg, rgba(0,102,255,0.2) 0%, rgba(0,102,255,0.3) 100%);
+            border-color: rgba(0,102,255,0.6);
+            box-shadow: 
+                inset 0 2px 8px rgba(0, 102, 255, 0.4),
+                0 0 20px rgba(0, 102, 255, 0.2);
+        }
+
+        .pov-switch.active .pov-knob {
+            transform: translateX(32px);
+            background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
+            box-shadow: 
+                0 4px 16px rgba(0, 102, 255, 0.5),
+                0 2px 8px rgba(0, 102, 255, 0.3),
+                inset 0 -1px 2px rgba(0, 0, 0, 0.1),
+                inset 0 1px 1px rgba(255, 255, 255, 0.6);
+        }
+
+        .pov-state {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.18em;
+            font-weight: 700;
+            min-width: 80px;
+            color: var(--pearl);
+            text-align: left;
+            transition: all 0.3s ease;
+        }
+
+        .pov-state::before {
+            content: '';
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--signal);
+            margin-right: 0.75rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            box-shadow: 0 0 8px var(--signal);
+        }
+
+        .pov-switch.active + .pov-state::before {
+            opacity: 1;
+        }
+
+        .pov {
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .pov.transitioning {
+            opacity: 0;
+            transform: translateY(-4px);
+        }
 
         /* Story sections */
         .story-block {
@@ -696,6 +836,7 @@
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             position: relative;
             overflow: hidden;
+            cursor: pointer;
         }
 
         .guide-card::after {
@@ -866,8 +1007,8 @@
         .nav {
             position: fixed;
             top: 2rem;
-            right: 2rem;
-            z-index: 1000;
+            left: 2rem;
+            z-index: 150;
             display: flex;
             gap: 1rem;
         }
@@ -927,6 +1068,17 @@
             .reflection {
                 padding: 2rem;
             }
+
+            .pov-toggle {
+                top: 1rem;
+                right: 1rem;
+                padding: 0.4rem 0.75rem;
+            }
+
+            .nav {
+                top: 1rem;
+                left: 1rem;
+            }
         }
     </style>
 </head>
@@ -935,13 +1087,25 @@
         <button class="nav-btn" onclick="goToSection('opening')">Home</button>
     </div>
 
+    <!-- Global POV Toggle -->
+    <div class="pov-toggle">
+        <span class="pov-toggle-label">Perspective</span>
+        <div class="pov-switch" onclick="togglePOV(this)">
+            <div class="pov-knob"></div>
+        </div>
+        <span class="pov-state">Designer</span>
+    </div>
+
     <div class="container">
         <!-- OPENING -->
         <div class="section active" id="opening">
             <div class="opening">
                 <div class="label">A speculative investigation</div>
                 <h1>The Unseen<br/>Architecture</h1>
-                <p class="subtitle">Two forces will determine how we design with artificial intelligence in 2040: who has access, and who controls the data</p>
+                <p class="subtitle">
+                    Two forces will determine how we design with artificial intelligence in 2040:
+                    who has access, and who controls the data.
+                </p>
                 <div class="btn-group">
                     <button class="btn primary" onclick="goToSection('intro')"><span>Begin</span></button>
                 </div>
@@ -954,24 +1118,32 @@
                 <div class="label">October 12, 2040 • Seattle, Washington</div>
                 <h2>The Morning Decision</h2>
                 
-                <p class="body-text">
-                    Rain drums against the window of your studio apartment. You are Asha Okafor, a product designer at a mid-sized climate tech company. Today you will make choices that reveal which version of 2040 you inhabit.
+                <p class="body-text pov"
+                   data-designer="Rain drums against the window of your studio apartment. You are Asha Okafor, a product designer at a mid-sized climate tech company. Today you will make choices that reveal which version of 2040 you inhabit."
+                   data-ai="Environmental audio: rainfall. User identity: Asha Okafor. Predictive branching initiated. Scenario tree active.">
+                    Rain drums against the window of your studio apartment. You are Asha, a creative technologist at a mid-sized climate tech company. Today you will make choices that reveal which version of 2040 you inhabit.
                 </p>
 
-                <p class="body-text">
+                <p class="body-text pov"
+                   data-designer="Your phone lights up. A new project from the city's Department of Public Infrastructure: design an interface for the neighborhood resilience network. Heat monitoring, emergency resources, community health data. Due in 72 hours."
+                   data-ai="Incoming task packet detected. Category: civic resilience interface. Timeline: 72 hours. Dataset sensitivity: high.">
                     Your phone lights up. A new project from the city's Department of Public Infrastructure: design an interface for the neighborhood resilience network. Heat monitoring, emergency resources, community health data. Due in 72 hours.
                 </p>
 
-                <div class="thought">
+                <div class="thought pov"
+                     data-designer="The same question surfaces every morning. Which tools can I trust? And more importantly, which tools can my users trust?"
+                     data-ai="User expressing tool-trust uncertainty. Logging psychological-state pattern: recurring concern about system reliability.">
                     The same question surfaces every morning. Which tools can I trust? And more importantly, which tools can my users trust?
                 </div>
 
-                <p class="body-text">
-                    You open your workstation. Four design platforms are available, each representing a fundamentally different philosophy about who should access AI tools and how personal data should be handled in the creative process.
+                <p class="body-text pov"
+                   data-designer="You open your workstation. Four design platforms are available, each representing a different philosophy about who should access AI tools and how personal data should be handled."
+                   data-ai="User interface opened. Four platform pathways available. Ethical divergence detected across toolsets.">
+                    You open your workstation. Four design platforms are available, each representing a different philosophy about who should access AI tools and how personal data should be handled.
                 </p>
 
                 <div class="btn-group">
-                    <button class="btn" onclick="goToSection('matrix')"><span>View the four futures</span></button>
+                    <button class="btn primary" onclick="goToSection('matrix')"><span>View the futures matrix</span></button>
                 </div>
             </div>
         </div>
@@ -986,26 +1158,8 @@
             </p>
 
             <div class="matrix-wrapper">
-                <!-- Axes -->
-                <div class="axis-horizontal"></div>
-                <div class="axis-vertical"></div>
-
-                <!-- Axis Labels -->
-                <div class="axis-label-left">Low<br/>Transparency</div>
-                <div class="axis-label-right">High<br/>Transparency</div>
-                <div class="axis-label-top">Human-Driven<br/>Creativity</div>
-                <div class="axis-label-bottom">AI-Driven<br/>Automation</div>
-
-                <!-- Center Label -->
-                <div class="matrix-center-label">
-                    The future of a<br/>
-                    <span class="highlight">Creative<br/>Technologist</span><br/>
-                    process.
-                </div>
-
-                <!-- Matrix Cells -->
                 <div class="matrix-container">
-                    <!-- Top Left: Sub-optimal (Human-Driven + Low Transparency) -->
+                    <!-- Top Left: Sub-optimal -->
                     <div class="matrix-cell suboptimal" onclick="goToSection('suboptimal-2')">
                         <div class="cell-label">Sub-optimal future:</div>
                         <p>
@@ -1013,7 +1167,7 @@
                         </p>
                     </div>
 
-                    <!-- Top Right: Preferable (Human-Driven + High Transparency) -->
+                    <!-- Top Right: Preferable -->
                     <div class="matrix-cell preferable" onclick="goToSection('preferable')">
                         <div class="cell-label">Optimal, preferred future:</div>
                         <p>
@@ -1021,7 +1175,7 @@
                         </p>
                     </div>
 
-                    <!-- Bottom Left: Worst-case (AI-Driven + Low Transparency) -->
+                    <!-- Bottom Left: Critical -->
                     <div class="matrix-cell critical" onclick="goToSection('critical')">
                         <div class="cell-label">Worst-case future:</div>
                         <p>
@@ -1029,7 +1183,7 @@
                         </p>
                     </div>
 
-                    <!-- Bottom Right: Sub-optimal (AI-Driven + High Transparency) -->
+                    <!-- Bottom Right: Sub-optimal -->
                     <div class="matrix-cell suboptimal" onclick="goToSection('suboptimal-1')">
                         <div class="cell-label">Sub-optimal future:</div>
                         <p>
@@ -1039,7 +1193,7 @@
                 </div>
             </div>
 
-            <div class="btn-group" style="text-align: center;">
+            <div class="btn-group">
                 <button class="btn primary" onclick="goToSection('preferable')"><span>Explore the preferable future</span></button>
             </div>
         </div>
@@ -1050,11 +1204,15 @@
                 <div class="label">The Open Commons • 2040</div>
                 <h2>A World Worth Building</h2>
 
-                <p class="body-text">
+                <p class="body-text pov"
+                   data-designer="You launch Loom, the open-source design platform that runs entirely on your local machine. No cloud. No data upload. No surveillance. The interface is clean, purposeful, built by a global collective of designers who believe tools should serve users, not extract from them."
+                   data-ai="User initiated Loom v3.2. Local-only model engaged. Telemetry disabled. Interface optimized for non-extractive workflows. Collective governance verified via decentralized ledger.">
                     You launch Loom, the open-source design platform that runs entirely on your local machine. No cloud. No data upload. No surveillance. The interface is clean, purposeful, built by a global collective of designers who believe tools should serve users, not extract from them.
                 </p>
 
-                <p class="body-text">
+                <p class="body-text pov"
+                   data-designer="The first thing you check is always the model card. Not out of obligation, but habit. Trust is earned through transparency."
+                   data-ai="User reviewing Model Card. Transparency module triggered. Provenance records displayed. Behavioral pattern indicates high trust-dependency on documentation visibility.">
                     The first thing you check is always the model card. Not out of obligation, but habit. Trust is earned through transparency.
                 </p>
 
@@ -1072,19 +1230,27 @@
                     <p>Cost: Free forever. Community-funded.</p>
                 </div>
 
-                <p class="body-text">
-                    You begin with pen and paper. Some things still work best analog. You photograph your sketches and import them as reference anchors. Loom interprets your intent without sending anything to a server. The computation happens here, on your machine, powered by a model small enough to run on consumer hardware.
+                <p class="body-text pov"
+                   data-designer="You begin with pen and paper. Some things still work best analog. You photograph your sketches and import them as reference anchors. Loom interprets your intent without sending anything to a server."
+                   data-ai="Analog reference captured. Extracting vector intent locally. No external upload permitted. Intent mapping calibrated to user’s historic sketch patterns.">
+                    You begin with pen and paper. Some things still work best analog. You photograph your sketches and import them as reference anchors. Loom interprets your intent without sending anything to a server.
                 </p>
 
-                <div class="thought">
+                <div class="thought pov"
+                     data-designer="This is what we fought for. After the 2031 Design Labor Strikes, after the data extraction scandals, after watching corporations harvest our work to train systems we couldn't afford to use. We demanded something different."
+                     data-ai="Historical reference detected: 2031 Design Labor Strikes. System acknowledges collective resistance as precursor to decentralized model governance.">
                     This is what we fought for. After the 2031 Design Labor Strikes, after the data extraction scandals, after watching corporations harvest our work to train systems we couldn't afford to use. We demanded something different.
                 </div>
 
-                <p class="body-text">
-                    The project involves sensitive community health data. In the old world, this would have been impossible to handle ethically with AI tools. Every platform would have required uploading the data to their servers, exposing vulnerable populations to risk.
+                <p class="body-text pov"
+                   data-designer="The project involves sensitive community health data. In the old world, this would have been impossible to handle ethically with AI tools."
+                   data-ai="Dataset flagged: high sensitivity. Legacy-era cloud workflows deemed non-compliant. Local inference ensures containment of health-source metadata.">
+                    The project involves sensitive community health data. In the old world, this would have been impossible to handle ethically with AI tools.
                 </p>
 
-                <p class="body-text">
+                <p class="body-text pov"
+                   data-designer="But Loom processes everything locally. The health data never leaves the city's infrastructure. Your design work never leaves your machine. Privacy is guaranteed by architecture, not policy documents that change with market conditions."
+                   data-ai="Privacy guarantee confirmed: air-gapped inference. Zero external dependencies. Architecture-level privacy validated. No policy-based risk factors.">
                     But Loom processes everything locally. The health data never leaves the city's infrastructure. Your design work never leaves your machine. Privacy is guaranteed by architecture, not policy documents that change with market conditions.
                 </p>
 
@@ -1099,38 +1265,39 @@
             <div class="story-block">
                 <div class="timestamp">14:30 • The Design Session</div>
 
-                <p class="body-text">
-                    Loom generates six layout variations based on your sketches. For each, you can see which training examples influenced it, weighted by similarity. Not because regulations require it, but because the community that built Loom believed designers deserve to understand their tools.
+                <p class="body-text pov"
+                   data-designer="Loom generates six layout variations based on your sketches. You can see which training examples influenced each one."
+                   data-ai="Generated 6 candidate layouts. Provenance breakdown displayed. Influence weighting enabled.">
+                    Loom generates six layout variations based on your sketches. You can see which training examples influenced each one.
                 </p>
 
-                <p class="body-text">
-                    Layout three catches your attention. Strong hierarchy, accessible color contrast, clear wayfinding. But when you examine its reasoning, you notice it draws heavily from a 2037 Copenhagen emergency system and a 2038 Lagos community health project.
+                <p class="body-text pov"
+                   data-designer="Layout three catches your attention. Strong hierarchy, accessible contrast. But its reasoning shows heavy influence from Copenhagen 2037 and Lagos 2038."
+                   data-ai="Variant 3 selected. High-similarity matches: Copenhagen-2037, Lagos-2038. Cultural adaptation mismatch flagged.">
+                    Layout three catches your attention. Strong hierarchy, accessible contrast. But its reasoning shows heavy influence from Copenhagen 2037 and Lagos 2038.
                 </p>
 
-                <p class="body-text">
-                    The problem: Copenhagen assumed high digital literacy. Your users include elders in the Chinatown International District who specifically requested minimal text, maximum clarity.
+                <p class="body-text pov"
+                   data-designer="Copenhagen assumed high digital literacy. Your elderly users in the Chinatown International District require clarity, not density."
+                   data-ai="Population mismatch detected: projected literacy level inconsistent with chosen design precedent. Adjustment recommended.">
+                    Copenhagen assumed high digital literacy. Your elderly users in the Chinatown International District require clarity, not density.
                 </p>
 
-                <p class="body-text">
-                    You override the AI entirely. Larger icons. Reduced density. More white space. Iconography over text labels. The system doesn't argue. It doesn't try to convince you its recommendation was statistically superior. It simply adjusts.
+                <p class="body-text pov"
+                   data-designer="You override the AI entirely. Larger icons. Reduced density. More white space. The system does not argue. It simply adjusts."
+                   data-ai="User override executed. Updating layout parameters: icon scale, spacing, density reduction. No resistance protocol triggered.">
+                    You override the AI entirely. Larger icons. Reduced density. More white space. The system does not argue. It simply adjusts.
                 </p>
 
-                <div class="data-panel">
-                    <h4>[ SESSION SUMMARY ]</h4>
-                    <p>Human-directed decisions: 67%</p>
-                    <p>AI-assisted generation: 33%</p>
-                    <p>Overrides executed: 18</p>
-                    <p>Processing: 100% local</p>
-                    <p>Data transmitted: 0 bytes</p>
-                    <p>Energy cost: 0.2 kWh</p>
-                    <p>Contributors credited: 52 designers</p>
-                </div>
-
-                <p class="body-text">
-                    By evening, you have a working prototype. The decisions about whose voices to center, how to represent risk without inducing panic, which metaphors to use for different communities, those were yours. The AI helped you iterate faster, caught inconsistencies, generated texture patterns that would have taken hours manually.
+                <p class="body-text pov"
+                   data-designer="By evening, you have a working prototype. The AI helped but the final decisions were yours."
+                   data-ai="Prototype complete. Human-led decision ratio: dominant. AI contributions logged as secondary accelerants.">
+                    By evening, you have a working prototype. The AI helped but the final decisions were yours.
                 </p>
 
-                <div class="thought">
+                <div class="thought pov"
+                     data-designer="The question was never whether to use AI. It was always about on whose terms."
+                     data-ai="User asserting agency priority over automated systems. Recording autonomy statement.">
                     The question was never whether to use AI. It was always about on whose terms.
                 </div>
 
@@ -1145,40 +1312,27 @@
             <div class="story-block">
                 <div class="timestamp">18:00 • Evening</div>
 
-                <p class="body-text">
-                    Before export, Loom generates documentation automatically. Not for compliance. Not for legal protection. But because provenance matters.
+                <p class="body-text pov"
+                   data-designer="Before export, Loom generates documentation automatically. Not for compliance but because provenance matters."
+                   data-ai="Auto-documentation initiated. Provenance log compiling. Compliance mode not invoked.">
+                    Before export, Loom generates documentation automatically. Not for compliance but because provenance matters.
                 </p>
 
-                <div class="data-panel">
-                    <h4>[ AUTO-GENERATED DOCUMENTATION ]</h4>
-                    <p>Impact Report:</p>
-                    <p>  • Energy: 0.2 kWh (equivalent to 15 minutes of LED lighting)</p>
-                    <p>  • Carbon: 0.08kg CO2</p>
-                    <p>  • Water: 0L (no data center cooling required)</p>
-                    <p></p>
-                    <p>Provenance Record:</p>
-                    <p>  • All AI tools used</p>
-                    <p>  • All training data sources with attribution</p>
-                    <p>  • All human contributors</p>
-                    <p>  • Timestamped decision log</p>
-                    <p>  • Immutable hash for verification</p>
-                    <p></p>
-                    <p>Privacy Guarantee:</p>
-                    <p>  • No data uploaded</p>
-                    <p>  • No telemetry collected</p>
-                    <p>  • No behavioral tracking</p>
-                    <p>  • All processing local</p>
-                </div>
-
-                <p class="body-text">
-                    The client will receive all of this. Most won't read it. But they could. That's the difference between privacy theater and privacy by design.
+                <p class="body-text pov"
+                   data-designer="The client will receive all of this. They may not read it but they could. And that matters."
+                   data-ai="Documentation packaged for client. Probability of full review: low. Transparency still functionally important.">
+                    The client will receive all of this. They may not read it but they could. And that matters.
                 </p>
 
-                <p class="body-text">
-                    As you close Loom, it asks one final question: Would you like to contribute this project to the Creative Commons training pool? Your work could feed the next generation of models. With your explicit consent. With proper attribution. With compensation managed through the Design Cooperative's blockchain system.
+                <p class="body-text pov"
+                   data-designer="Loom asks if you want to contribute the project to the Creative Commons training pool."
+                   data-ai="Requesting permission: contribution to Creative Commons dataset pool. Consent required.">
+                    Loom asks if you want to contribute the project to the Creative Commons training pool.
                 </p>
 
-                <p class="body-text">
+                <p class="body-text pov"
+                   data-designer="You select 'Yes, after client approval.'"
+                   data-ai="User selected: conditional contribution. Waiting for client authorization.">
                     You select "Yes, after client approval."
                 </p>
 
@@ -1199,23 +1353,33 @@
                 <div class="label">The Surveillance Commons • 2040</div>
                 <h2>Access Without Privacy</h2>
 
-                <p class="body-text">
+                <p class="body-text pov"
+                   data-designer="Everyone can use the tools. That's what they promised. Democratized AI. Free for all. No barriers."
+                   data-ai="System availability: universal. Cost to user: zero. Revenue model: data extraction at scale.">
                     Everyone can use the tools. That's what they promised. Democratized AI. Free for all. No barriers.
                 </p>
 
-                <p class="body-text">
+                <p class="body-text pov"
+                   data-designer="But every design session is recorded. Every color choice analyzed. Every client conversation transcribed. The platform watches your process, learns your patterns, sells insights to advertisers, to employers, to insurers."
+                   data-ai="Full-session telemetry enabled. Design gestures logged. Behavioral profiles generated. Insights packaged for third-party buyers.">
                     But every design session is recorded. Every color choice analyzed. Every client conversation transcribed. The platform watches your process, learns your patterns, sells insights to advertisers, to employers, to insurers.
                 </p>
 
-                <div class="thought">
+                <div class="thought pov"
+                     data-designer="I have access to infinite capability and zero control over where my data goes."
+                     data-ai="User awareness of extractive data flows detected. Consent remains implicit via continued platform use.">
                     I have access to infinite capability and zero control over where my data goes.
                 </div>
 
-                <p class="body-text">
+                <p class="body-text pov"
+                   data-designer="You design a healthcare interface. Three months later, you see nearly identical designs appearing in competitor products. Your innovation, harvested in real-time, redistributed to whoever pays for 'market intelligence.'"
+                   data-ai="Design pattern reuse confirmed. Source: aggregated user workflows. Licensing tier: premium analytics subscribers.">
                     You design a healthcare interface. Three months later, you see nearly identical designs appearing in competitor products. Your innovation, harvested in real-time, redistributed to whoever pays for "market intelligence."
                 </p>
 
-                <p class="body-text">
+                <p class="body-text pov"
+                   data-designer="The tools are free. You are the product. Your creativity is the raw material."
+                   data-ai="Primary commodity identified: user creativity and process metadata. Monetary value realized by platform, not creator.">
                     The tools are free. You are the product. Your creativity is the raw material.
                 </p>
 
@@ -1231,32 +1395,44 @@
                 <div class="label">The Walled Garden • 2040</div>
                 <h2>Privacy Without Access</h2>
 
-                <p class="body-text">
+                <p class="body-text pov"
+                   data-designer="Your data is protected. Encrypted end-to-end. Never sold. Never shared. The premium platform guarantees total privacy."
+                   data-ai="Encryption protocols: active. Third-party access: denied. Subscription gate: enforced.">
                     Your data is protected. Encrypted end-to-end. Never sold. Never shared. The premium platform guarantees total privacy.
                 </p>
 
-                <p class="body-text">
+                <p class="body-text pov"
+                   data-designer="It costs $4,000 per year."
+                   data-ai="Annual subscription: $4,000. Accessibility index: low. User demographic skew: affluent professionals and enterprise clients.">
                     It costs $4,000 per year.
                 </p>
 
-                <div class="thought">
+                <div class="thought pov"
+                     data-designer="I can afford this. Most designers cannot."
+                     data-ai="Resource disparity acknowledged. Majority of global practitioners excluded from privacy-preserving tooling.">
                     I can afford this. Most designers cannot.
                 </div>
 
-                <p class="body-text">
+                <p class="body-text pov"
+                   data-designer="Talent is locked out. Emerging designers use inferior tools with exploitative data practices. The gap widens. Creative capability stratifies along economic lines."
+                   data-ai="Skill development diverges by income bracket. Exploitative tools dominate lower-cost tiers. Structural inequality reinforced.">
                     Talent is locked out. Emerging designers use inferior tools with exploitative data practices. The gap widens. Creative capability stratifies along economic lines.
                 </p>
 
-                <p class="body-text">
+                <p class="body-text pov"
+                   data-designer="You attend industry conferences where everyone uses the same premium platform. The aesthetic homogenizes. Innovation slows. The walled garden becomes an echo chamber."
+                   data-ai="Aesthetic diversity reduced. Design language converges around platform defaults. Innovation rate declines within closed ecosystem.">
                     You attend industry conferences where everyone uses the same premium platform. The aesthetic homogenizes. Innovation slows. The walled garden becomes an echo chamber.
                 </p>
 
-                <p class="body-text">
+                <p class="body-text pov"
+                   data-designer="Privacy is a luxury good. Access is rationed. The field fractures."
+                   data-ai="Privacy reclassified as premium service. Creative industry stratified into protected and exposed classes.">
                     Privacy is a luxury good. Access is rationed. The field fractures.
                 </p>
 
                 <div class="btn-group">
-                    <button class="btn" onclick="goToSection('matrix')">Return to matrix</button>
+                    <button class="btn" onclick="goToSection('matrix')"><span>Return to matrix</span></button>
                 </div>
             </div>
         </div>
@@ -1267,19 +1443,27 @@
                 <div class="label">The Corporate Fortress • 2040</div>
                 <h2>Neither Access Nor Privacy</h2>
 
-                <p class="body-text">
+                <p class="body-text pov"
+                   data-designer="Three corporations control 94% of professional design AI. Access requires enterprise contracts. Your data is harvested to train proprietary models you'll never see. Trade secrets protect their methods. User privacy is abandoned."
+                   data-ai="Market concentration: 94% across three vendors. Access threshold: enterprise-only. Training data pipeline: opaque. User privacy: deprioritized in favor of model performance.">
                     Three corporations control 94% of professional design AI. Access requires enterprise contracts. Your data is harvested to train proprietary models you'll never see. Trade secrets protect their methods. User privacy is abandoned.
                 </p>
 
-                <div class="thought">
+                <div class="thought pov"
+                     data-designer="I am surveilled by the tools I need to do my work. I have no alternative."
+                     data-ai="Dependence lock-in achieved. User awareness of surveillance present but overridden by economic necessity.">
                     I am surveilled by the tools I need to do my work. I have no alternative.
                 </div>
 
-                <p class="body-text">
+                <p class="body-text pov"
+                   data-designer="Independent practice is extinct. You work for corporations or you don't work. The platforms dictate terms. Prices increase annually. Features are held hostage behind tier upgrades."
+                   data-ai="Freelance viability: near zero. Platform governance: unilateral. Pricing strategy: perpetual escalation. Feature access: stratified via paywall tiers.">
                     Independent practice is extinct. You work for corporations or you don't work. The platforms dictate terms. Prices increase annually. Features are held hostage behind tier upgrades.
                 </p>
 
-                <p class="body-text">
+                <p class="body-text pov"
+                   data-designer="You realize you've lost the ability to design without these systems. The skills have atrophied. The knowledge has been transferred to black-box models you'll never understand or control."
+                   data-ai="Human skill dependency redirected to proprietary systems. Tacit knowledge absorbed into models. Explainability: minimal. User control: negligible.">
                     You realize you've lost the ability to design without these systems. The skills have atrophied. The knowledge has been transferred to black-box models you'll never understand or control.
                 </p>
 
@@ -1372,7 +1556,9 @@
             <div class="story-block" style="max-width: 900px;">
                 <div class="label">Principle 01 of 12</div>
                 <h2>Accessibility</h2>
-                <h3 style="color: var(--ash); font-weight: 400; margin-bottom: 3rem;">Ensuring equitable access to AI-enhanced creative tools and outputs</h3>
+                <h3 style="color: var(--ash); font-weight: 400; margin-bottom: 3rem;">
+                    Ensuring equitable access to AI-enhanced creative tools and outputs
+                </h3>
 
                 <div class="body-text">
                     <strong>Why it matters:</strong>
@@ -1445,13 +1631,15 @@
             <div class="story-block" style="max-width: 900px;">
                 <div class="label">Principle 02 of 12</div>
                 <h2>Data Privacy</h2>
-                <h3 style="color: var(--ash); font-weight: 400; margin-bottom: 3rem;">Protecting personal and sensitive information throughout AI-assisted creative work</h3>
+                <h3 style="color: var(--ash); font-weight: 400; margin-bottom: 3rem;">
+                    Protecting personal and sensitive information throughout AI-assisted creative work
+                </h3>
 
                 <div class="body-text">
                     <strong>Why it matters:</strong>
                 </div>
                 <p class="body-text">
-                    Every interaction with cloud-based AI tools creates data: your design decisions, client information, project iterations, behavioral patterns, even the problems you're trying to solve. This data is often retained, analyzed, and used to train future models,sometimes without clear disclosure or consent. For designers working with sensitive client information, healthcare data, or marginalized communities, this creates serious ethical and legal risks.
+                    Every interaction with cloud-based AI tools creates data: your design decisions, client information, project iterations, behavioral patterns, even the problems you're trying to solve. This data is often retained, analyzed, and used to train future models, sometimes without clear disclosure or consent. For designers working with sensitive client information, healthcare data, or marginalized communities, this creates serious ethical and legal risks.
                 </p>
 
                 <p class="body-text">
@@ -1484,18 +1672,9 @@
                 </div>
 
                 <div class="data-panel">
-                    <h4>WHEN NOT TO USE AI</h4>
-                    <p>→ Never upload client information to platforms without explicit consent and verification of their privacy practices</p>
-                    <p>→ Don't use free AI tools for confidential work. If you're not paying, your data is likely the product</p>
-                    <p>→ Don't assume "enterprise" versions actually protect privacy. Verify independently</p>
-                    <p>→ Don't use AI tools for healthcare, legal, or financial design work unless they're HIPAA/GDPR compliant and audited</p>
-                    <p>→ Don't trust assurances without technical verification. Test data retention yourself</p>
-                </div>
-
-                <div class="data-panel">
                     <h4>STAYING INFORMED</h4>
                     <p>→ Follow privacy researchers and digital rights organizations</p>
-                    <p>→ Read terms of service updates. Companies change policies frequently</p>
+                    <p>→ Read terms of service updates companies change policies frequently</p>
                     <p>→ Monitor security breaches affecting AI platforms</p>
                     <p>→ Join professional communities discussing ethical tool choices</p>
                     <p>→ Learn about differential privacy, federated learning, and other privacy-preserving techniques</p>
@@ -1625,13 +1804,67 @@
     </div>
 
     <script>
+        let isPOVAI = false;
+
         function goToSection(sectionId) {
             document.querySelectorAll('.section').forEach(section => {
                 section.classList.remove('active');
             });
-            document.getElementById(sectionId).classList.add('active');
+            const target = document.getElementById(sectionId);
+            if (target) {
+                target.classList.add('active');
+                applyPOVToSection(target);
+            }
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
+
+        function applyPOVToSection(section) {
+            const povElements = section.querySelectorAll('.pov');
+            povElements.forEach(el => {
+                const designerText = el.getAttribute('data-designer');
+                const aiText = el.getAttribute('data-ai');
+                if (!designerText || !aiText) return;
+
+                el.textContent = isPOVAI ? aiText : designerText;
+            });
+        }
+
+        function togglePOV(switchElement) {
+            isPOVAI = !isPOVAI;
+
+            // Toggle switch visual
+            switchElement.classList.toggle('active');
+
+            // Update label
+            const stateLabel = switchElement.parentElement.querySelector('.pov-state');
+            stateLabel.textContent = isPOVAI ? "AI" : "Designer";
+
+            // Apply POV to current active section
+            const activeSection = document.querySelector('.section.active');
+            if (!activeSection) return;
+
+            const povElements = activeSection.querySelectorAll('.pov');
+            povElements.forEach(el => {
+                el.classList.add('transitioning');
+
+                setTimeout(() => {
+                    const designerText = el.getAttribute('data-designer');
+                    const aiText = el.getAttribute('data-ai');
+                    if (!designerText || !aiText) return;
+
+                    el.textContent = isPOVAI ? aiText : designerText;
+                    el.classList.remove('transitioning');
+                }, 170);
+            });
+        }
+
+        // Initialize POV content on load
+        document.addEventListener('DOMContentLoaded', () => {
+            const openingSection = document.getElementById('opening');
+            if (openingSection) {
+                applyPOVToSection(openingSection);
+            }
+        });
     </script>
 </body>
 </html>
