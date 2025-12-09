@@ -112,7 +112,7 @@
         }
 
         .container {
-            max-width: 1200px;
+        max-width: 1400px; /* match matrix */
             margin: 0 auto;
             padding: 0 2rem;
         }
@@ -345,15 +345,18 @@
             gap: 1rem;
             margin: 3rem 0;
             max-width: 700px;
+            align-items: center
         }
 
         /* Matrix */
         .matrix-wrapper {
-            position: relative;
-            max-width: 1400px;
-            margin: 6rem auto;
-            padding: 0;
-        }
+    max-width: 1400px;
+    margin: 3rem auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;   /* ★ this centers the whole grid block */
+}
+
 
         .matrix-container {
             display: grid;
@@ -497,10 +500,29 @@
         .matrix-center-label {
             display: none;
         }
+        #matrix .btn-group {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 3rem;
+        padding-bottom: 4rem;
+        }
+
+        #matrix .btn-group .btn {
+        min-width: 320px;
+        }
+
+        .matrix-wrapper {
+        margin: 3rem auto;
+    }
+
+
 
         /* Story sections */
         .story-block {
             max-width: 800px;
+            padding: 3rem 2rem;
             margin: 3rem auto;
             position: relative;
         }
@@ -911,7 +933,7 @@
 </head>
 <body>
     <div class="nav">
-        <button class="nav-btn" onclick="goToSection('opening')">Index</button>
+        <button class="nav-btn" onclick="goToSection('opening')">Home</button>
     </div>
 
     <div class="container">
@@ -960,7 +982,7 @@
             <div class="label" style="text-align: center;">The Futures Matrix</div>
             <h2 style="text-align: center;">2040: Four Possible Worlds</h2>
             
-            <p class="body-text large" style="max-width: 900px; margin: 2rem auto 4rem; text-align: center;">
+            <p class="body-text large" style="max-width: 1200px; margin: 2rem auto 4rem; text-align: center;">
                 Two axes determine our trajectory. Accessibility defines who can use AI tools. Data privacy determines who owns and controls the information that powers them.
             </p>
 
@@ -1308,7 +1330,7 @@
                 </p>
 
                 <p>
-                    As creative technologists, we are not merely users of AI systems. We are the test case for how these technologies will be deployed across society. The workflows we normalize, the tools we adopt, the compromises we accept—these decisions establish precedents that ripple outward into healthcare, education, governance, and public infrastructure.
+                    As creative technologists, we are not merely users of AI systems. We are the test case for how these technologies will be deployed across society. The workflows we normalize, the tools we adopt, the compromises we accept these decisions establish precedents that ripple outward into healthcare, education, governance, and public infrastructure.
                 </p>
 
                 <p>
@@ -1336,7 +1358,7 @@
                 </p>
 
                 <p class="body-text">
-                    This guide translates abstract ethical concepts into concrete professional actions. Each principle includes context, significance, and specific steps you can take to practice responsibly—starting immediately, regardless of your role or resources.
+                    This guide translates abstract ethical concepts into concrete professional actions. Each principle includes context, significance, and specific steps you can take to practice responsibly starting immediately, regardless of your role or resources.
                 </p>
 
                 <div class="btn-group">
@@ -1357,7 +1379,7 @@
                     <strong>Why it matters:</strong>
                 </div>
                 <p class="body-text">
-                    AI tools increasingly determine who can participate in creative industries. When these systems are accessible only to those with expensive hardware, enterprise subscriptions, or high-speed internet, they reproduce existing inequalities. Accessibility is not just about interface design—it encompasses economic access, technical requirements, language support, and accommodation for different abilities and contexts.
+                    AI tools increasingly determine who can participate in creative industries. When these systems are accessible only to those with expensive hardware, enterprise subscriptions, or high-speed internet, they reproduce existing inequalities. Accessibility is not just about interface design, it encompasses economic access, technical requirements, language support, and accommodation for different abilities and contexts.
                 </p>
 
                 <p class="body-text">
@@ -1389,9 +1411,9 @@
 
                 <div class="data-panel">
                     <h4>WHEN NOT TO USE AI</h4>
-                    <p>→ Don't assume AI-generated accessibility features are perfect—always test with actual users who have disabilities</p>
+                    <p>→ Don't assume AI-generated accessibility features are perfect always test with actual users who have disabilities</p>
                     <p>→ Don't use tools that require expensive hardware when designing for communities with limited resources</p>
-                    <p>→ Don't rely solely on automated testing—accessibility requires human evaluation and lived experience</p>
+                    <p>→ Don't rely solely on automated testing accessibility requires human evaluation and lived experience</p>
                     <p>→ Don't use AI as a replacement for inclusive design processes that center marginalized voices</p>
                 </div>
 
@@ -1430,11 +1452,11 @@
                     <strong>Why it matters:</strong>
                 </div>
                 <p class="body-text">
-                    Every interaction with cloud-based AI tools creates data: your design decisions, client information, project iterations, behavioral patterns, even the problems you're trying to solve. This data is often retained, analyzed, and used to train future models—sometimes without clear disclosure or consent. For designers working with sensitive client information, healthcare data, or marginalized communities, this creates serious ethical and legal risks.
+                    Every interaction with cloud-based AI tools creates data: your design decisions, client information, project iterations, behavioral patterns, even the problems you're trying to solve. This data is often retained, analyzed, and used to train future models,sometimes without clear disclosure or consent. For designers working with sensitive client information, healthcare data, or marginalized communities, this creates serious ethical and legal risks.
                 </p>
 
                 <p class="body-text">
-                    Privacy violations in creative AI are not always obvious. When you upload a client brief to a generative tool, where does that information go? When you use an AI writing assistant for a confidential project, who else might access those insights? When you generate images based on proprietary concepts, are those prompts stored and potentially exposed? Data privacy isn't paranoia—it's professional responsibility.
+                    Privacy violations in creative AI are not always obvious. When you upload a client brief to a generative tool, where does that information go? When you use an AI writing assistant for a confidential project, who else might access those insights? When you generate images based on proprietary concepts, are those prompts stored and potentially exposed? Data privacy isn't paranoia. It's professional responsibility.
                 </p>
 
                 <div class="body-text">
@@ -1465,16 +1487,16 @@
                 <div class="data-panel">
                     <h4>WHEN NOT TO USE AI</h4>
                     <p>→ Never upload client information to platforms without explicit consent and verification of their privacy practices</p>
-                    <p>→ Don't use free AI tools for confidential work—if you're not paying, your data is likely the product</p>
-                    <p>→ Don't assume "enterprise" versions actually protect privacy—verify independently</p>
+                    <p>→ Don't use free AI tools for confidential work. If you're not paying, your data is likely the product</p>
+                    <p>→ Don't assume "enterprise" versions actually protect privacy. Verify independently</p>
                     <p>→ Don't use AI tools for healthcare, legal, or financial design work unless they're HIPAA/GDPR compliant and audited</p>
-                    <p>→ Don't trust assurances without technical verification—test data retention yourself</p>
+                    <p>→ Don't trust assurances without technical verification. Test data retention yourself</p>
                 </div>
 
                 <div class="data-panel">
                     <h4>STAYING INFORMED</h4>
                     <p>→ Follow privacy researchers and digital rights organizations</p>
-                    <p>→ Read terms of service updates—companies change policies frequently</p>
+                    <p>→ Read terms of service updates. Companies change policies frequently</p>
                     <p>→ Monitor security breaches affecting AI platforms</p>
                     <p>→ Join professional communities discussing ethical tool choices</p>
                     <p>→ Learn about differential privacy, federated learning, and other privacy-preserving techniques</p>
@@ -1550,7 +1572,7 @@
                 <div class="guide-card" data-number="08">
                     <div class="category">Autonomy</div>
                     <h3>08. Human Agency & Control</h3>
-                    <p>Maintain meaningful control over creative decisions. AI assists, never replaces judgment. You direct the machine—it doesn't direct you. Resist automation pressure.</p>
+                    <p>Maintain meaningful control over creative decisions. AI assists, never replaces judgment. You direct the machine, it doesn't direct you. Resist automation pressure.</p>
                 </div>
 
                 <div class="guide-card" data-number="09">
@@ -1562,7 +1584,7 @@
                 <div class="guide-card" data-number="10">
                     <div class="category">Knowledge</div>
                     <h3>10. Education & Literacy</h3>
-                    <p>Understand how AI actually works. Evaluate vendor claims critically. Read beyond marketing. Ongoing learning isn't optional—it's survival in this field.</p>
+                    <p>Understand how AI actually works. Evaluate vendor claims critically. Read beyond marketing. Ongoing learning isn't optional, it's survival in this field.</p>
                 </div>
 
                 <div class="guide-card" data-number="11">
@@ -1587,7 +1609,7 @@
                     Start with the principles most relevant to your current projects. If you're designing for public services, prioritize accessibility and privacy. If you're using generative tools, focus on training data provenance and authorship. If you're in a leadership role, emphasize accountability and power dynamics.
                 </p>
                 <p>
-                    This guide assumes you will encounter systems that violate these principles. Corporate tools often do. Your job is not to find perfect solutions—they rarely exist. Your job is to make informed choices, push for better alternatives, and refuse to accept extractive practices as inevitable.
+                    This guide assumes you will encounter systems that violate these principles. Corporate tools often do. Your job is not to find perfect solutions which rarely exist. Your job is to make informed choices, push for better alternatives, and refuse to accept extractive practices as inevitable.
                 </p>
                 <p>
                     The field changes rapidly. Revisit these principles regularly. Update your understanding as new tools emerge and regulations evolve. Share knowledge with your professional community. Collective action is the only path to structural change.
